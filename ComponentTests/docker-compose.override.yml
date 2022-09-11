@@ -1,0 +1,36 @@
+version: '3.4'
+
+services:
+  catalogdb:
+    container_name: catalogdb
+    restart: always
+    volumes:
+      - ${WEBAPP_STORAGE_HOME}/site:/data/db
+    ports:
+      - "27017:27017"
+
+  mockoonapi:
+    container_name: mockoonapi
+    ports:
+      - "3000"
+      - "3000:3000"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  componenttests.webapi:
+    container_name: componenttests.webapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "CatalogDatabaseSettings:ConnectionString=mongodb://catalogdb:27017"
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    depends_on:
+      - catalogdb
+      - mockoonapi
+    ports:
+      - "80"
+      - "443"
+      - "64399:80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

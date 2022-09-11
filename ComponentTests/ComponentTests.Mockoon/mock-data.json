@@ -1,0 +1,192 @@
+{
+  "uuid": "7d48b6a5-f26f-4569-b1ff-4fa0d61c8950",
+  "lastMigration": 13,
+  "name": "mock-data",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3000,
+  "routes": [
+    {
+      "uuid": "e97d1da5-22ac-40c8-ba50-5bbbd6143c0d",
+      "documentation": "Get a list of posts (JSON)",
+      "method": "get",
+      "endpoint": "posts",
+      "responses": [
+        {
+          "uuid": "09f1fd96-bcda-4d90-bca5-c977aad8f328",
+          "body": "[\r\n  {{#repeat (queryParam 'total' '5')}}\r\n  {\r\n    \"id\": {{@index}},\r\n    \"title\": \"{{faker 'lorem.sentence'}}\",\r\n    \"content\": \"{{faker 'lorem.sentences'}}\",\r\n    \"media\": \"{{faker 'image.nature'}}\",\r\n    \"author\": {\r\n      \"name\": \"{{faker 'name.firstName'}} {{faker 'name.firstName'}}\",\r\n      \"avatar\": \"{{faker 'image.avatar'}}\"\r\n    },\r\n    \"comments\": [\r\n      {{#repeat (faker 'random.number' 5)}}\r\n      {\r\n        \"id\": \"{{faker 'random.uuid'}}\",\r\n        \"content\": \"{{faker 'lorem.sentence'}}\",\r\n        \"author\": {\r\n          \"name\": \"{{faker 'name.firstName'}} {{faker 'name.firstName'}}\",\r\n          \"avatar\": \"{{faker 'image.avatar'}}\"\r\n        }\r\n      }\r\n      {{/repeat}}\r\n    ],\r\n    \"likes\": {{faker 'random.number' 100}},\r\n    \"shares\": {{faker 'random.number' 100}},\r\n    \"location\": {\r\n      \"lat\": {{faker 'address.latitude'}},\r\n      \"long\": {{faker 'address.longitude'}}\r\n    },\r\n    \"archived\": {{faker 'random.boolean'}}\r\n  }\r\n  {{/repeat}}\r\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Success",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "f9705d44-195d-417d-8cb7-cde2d623a38d",
+      "documentation": "Get a list of location (CSV)",
+      "method": "get",
+      "endpoint": "geoData",
+      "responses": [
+        {
+          "uuid": "d58e6566-cfcb-4a68-8c8b-d3919cf07e31",
+          "body": "city,state,address,latitude,longitude,timezone\r\n{{#repeat 5000}}\r\n{{faker 'address.city'}},{{faker 'address.stateAbbr'}},{{faker 'address.streetAddress'}},{{faker 'address.latitude'}},{{faker 'address.longitude'}},{{faker 'address.timeZone'}}\r\n{{/repeat}}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Success",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "text/csv"
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "279152e3-74d7-4a75-89bd-f3db2778f286",
+      "documentation": "Get a list of products (XML)",
+      "method": "get",
+      "endpoint": "products",
+      "responses": [
+        {
+          "uuid": "cc1b8664-cdaf-4f7c-a92d-fe87eb6134f0",
+          "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<PRODUCTS>\r\n  {{# repeat 50}}\r\n  <PRODUCT>\r\n    <UUID>{{faker 'random.uuid'}}</UUID>\r\n    <NAME>{{faker 'commerce.product'}}</NAME>\r\n    <PRICE>{{faker 'commerce.price'}}</PRICE>\r\n    <COLOR>{{faker 'commerce.color'}}</COLOR>\r\n    <INVENTORY>{{faker 'random.number' 50}}</INVENTORY>\r\n  </PRODUCT>\r\n  {{/ repeat}}\r\n</PRODUCTS>",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/xml"
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "f091c2ac-9502-4006-bd48-88d372d4f83f",
+      "documentation": "Create a user",
+      "method": "post",
+      "endpoint": "users",
+      "responses": [
+        {
+          "uuid": "4d9c4f3c-fbde-410e-9772-43ce20a51c87",
+          "body": "{\r\n  \"id\": \"{{faker 'random.uuid'}}\",\r\n  \"firstname\": \"{{body 'firstname'}}\",\r\n  \"lastname\": \"{{body 'lastname'}}\",\r\n  \"birthdate\": \"{{body 'birthdate'}}\",\r\n  \"email\": \"{{body 'email'}}\",\r\n  \"createdAt\": \"{{now}}\"\r\n}",
+          "latency": 0,
+          "statusCode": 201,
+          "label": "Created",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "5f533e81-7f81-47b8-bfeb-3ed139caaf59",
+      "documentation": "Get a list of products or materials",
+      "method": "get",
+      "endpoint": "inventory/:type",
+      "responses": [
+        {
+          "uuid": "382e595c-e9ff-4fac-89eb-eaacf3bfdf0e",
+          "body": "[\r\n  {{#repeat (queryParam 'total' '5')}}\r\n  {\r\n    \"id\": \"{{faker 'random.uuid'}}\",\r\n    {{# switch (urlParam 'type')}}\r\n    {{# case 'products'}}\r\n    \"name\": \"{{faker 'commerce.product'}}\",\r\n    \"price\": \"{{faker 'commerce.price'}} EUR\"\r\n    {{/ case}}\r\n    {{# case 'materials'}}\r\n    \"name\": \"{{faker 'commerce.productMaterial'}}\",\r\n    \"quantity\": \"{{faker 'random.number' 50}}\"\r\n    {{/ case}}\r\n    {{/ switch}}\r\n  }\r\n  {{/repeat}}\r\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Success",
+          "headers": [
+            {
+              "key": "",
+              "value": ""
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyRemovePrefix": false,
+  "hostname": "0.0.0.0",
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  }
+}
